@@ -1,4 +1,3 @@
-debugger
 export const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: "wine-sticker-generator.firebaseapp.com",

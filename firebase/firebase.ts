@@ -10,7 +10,6 @@ class Firebase {
     public db: app.firestore.Firestore;
 
     constructor() {
-        debugger
         if (!app.apps.length)
             !app.apps.length ? app.initializeApp(firebaseConfig) : app.app()
         this.auth = app.auth();

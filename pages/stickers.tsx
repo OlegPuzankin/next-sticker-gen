@@ -34,6 +34,7 @@ function setFlagInBundle(stickers: Array<StickerType>, bundle: Array<StickerType
 function Stickers() {
     const dispatch = useDispatch()
     const stickers = useSelector((state: StoreState) => state.stickers.stickers)
+
     const { user, userLoading } = React.useContext(UserContext)
     const router = useRouter()
 
@@ -44,19 +45,23 @@ function Stickers() {
     const stickersBundle = useSelector((state: StoreState) => state.stickers.stickersBundle)
 
 
-    React.useEffect(() => {
-        if (!userLoading && !user) {
-            router.push('/auth')
-        }
+    // React.useEffect(() => {
+    //     console.log('user', user?.email);
+    //     console.log('userLoading', userLoading);
 
+    //     if (!userLoading && !user) {
+    //         router.push('/auth')
+    //     }
 
-    }, [user])
+    // }, [user])
 
 
 
 
     //first load after search
     React.useEffect(() => {
+
+
         if (router.query.queryType) {
             setLoading(true)
             getData(router.query as unknown as QueryArgs)
@@ -69,6 +74,11 @@ function Stickers() {
 
                 }).catch(e => {
                     setLoading(false)
+
+                    if (e === 'FirebaseError: Missing or insufficient permissions') {
+                        router.push('/auth')
+                    }
+
                 })
         }
 
@@ -77,6 +87,8 @@ function Stickers() {
 
 
     async function loadMoreStickers() {
+
+
         const query: QueryArgs = { ...router.query, queryType: `${router.query.queryType}*`, lastVisibleId }
         setLoading(true)
         getData(query).then(({ stickers: newStickers, lastVisibleId }) => {
@@ -92,7 +104,6 @@ function Stickers() {
     }
 
 
-
     return (
         <StickersCatalog
             stickers={stickers}
@@ -103,23 +114,23 @@ function Stickers() {
 }
 
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
-//     const user = await checkAuth(ctx)
+    const user = await checkAuth(ctx)
 
-//     if (!user) {
-//         return {
-//             redirect: {
-//                 destination: '/auth',
-//                 permanent: false
-//             }
-//         }
-//     }
+    if (!user) {
+        return {
+            redirect: {
+                destination: '/auth',
+                permanent: false
+            }
+        }
+    }
 
-//     return {
-//         props: {}
-//     }
-// }
+    return {
+        props: {}
+    }
+}
 
 
 export default Stickers

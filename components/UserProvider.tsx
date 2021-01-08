@@ -9,9 +9,6 @@ export const UserContext = React.createContext<{ user: I_User, userLoading: bool
 const tokenName = 'firebaseAuthToken';
 
 
-
-
-
 const UserProvider = ({ children }) => {
     // Basic Firebase email login function.
     const [user, setUser] = React.useState<I_User | null>(null);
@@ -20,6 +17,8 @@ const UserProvider = ({ children }) => {
     const onAuthStateChange = () => {
 
         return fbInstance.auth.onAuthStateChanged(async (user) => {
+            console.log('onAuthStateChanged', user?.email);
+
             setUserLoading(true)
             if (user) {
                 const userRef = await fbInstance.db.doc(`users/${user.uid}`).get() as firebase.firestore.DocumentSnapshot<I_User>
