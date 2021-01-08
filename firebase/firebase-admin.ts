@@ -25,8 +25,8 @@ class FirebaseAdmin {
         // const serviceAccountString = JSON.stringify(this._serviceAccount)
 
         serviceAccount.private_key_id = process.env.FIREBASE_PRIVATE_KEY_ID
-        serviceAccount.private_key = process.env.FIREBASE_PRIVATE_KEY
-        console.log('serviceAccount.private_key', serviceAccount.private_key);
+        serviceAccount.private_key = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+            console.log('serviceAccount.private_key', serviceAccount.private_key);
 
 
         if (!admin.apps.length) {

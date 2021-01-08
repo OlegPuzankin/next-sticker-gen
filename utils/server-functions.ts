@@ -11,7 +11,7 @@ export async function checkAuth(ctx: GetServerSidePropsContext) {
         if (!firebaseAuthToken) {
             return null
         } else {
-
+            console.log('checkAuth ---process.env.SERVER_URL-->', process.env.SERVER_URL);
             return await axios.post(`${process.env.SERVER_URL}/api/auth`, { firebaseAuthToken })
         }
     } catch (e) {
