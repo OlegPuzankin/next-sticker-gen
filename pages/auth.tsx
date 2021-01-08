@@ -26,8 +26,8 @@ function Auth() {
                     await fbInstance.login(email, password);
                     debugger
                     // setUserLogged(true)
-                    // setTimeout(() => router.push('/stickers/?queryType=getRecent'), 750)
-                    await router.push('/stickers/?queryType=getRecent')
+                    setTimeout(() => router.push('/stickers/?queryType=getRecent'), 750)
+                    // await router.push('/stickers/?queryType=getRecent')
 
                 } else {
                     await fbInstance.register(userName, email, password)
