@@ -1,0 +1,29 @@
+.navigation{
+    // height:20vh;
+    padding: 0.75rem 5rem 0.75rem 5rem; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    
+    &-left-part{
+        
+        display: flex;
+        // justify-content: start;
+        // width: 80%;
+
+    }
+
+    &-right-part{
+        display: flex;
+        
+
+
+       button{
+           margin-right: 0.5rem;
+       }
+
+    }
+
+}
+
