@@ -18,8 +18,8 @@ function Auth() {
 
     const formik = useFormik({
         initialValues: {
-            email: 'user@user.com',
-            password: 'user@user.com',
+            email: '',
+            password: '',
             userName: ''
         },
 

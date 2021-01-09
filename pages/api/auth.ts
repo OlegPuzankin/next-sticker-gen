@@ -9,7 +9,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 const validate = async (token) => {
   // Check that the user has a valid token
   const decodedToken = await fbAdminInstance.auth.verifyIdToken(token, true);
-  console.log('decodedToken', decodedToken);
 
   // let userData;
   // Get user Firebase data from token

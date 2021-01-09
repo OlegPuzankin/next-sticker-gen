@@ -94,7 +94,6 @@ export default function DashboardProducers() {
         setSelectedProducer(producerId)
 
     }
-    console.log('errors', formik.errors);
 
 
     return (

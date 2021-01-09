@@ -15,7 +15,6 @@ const UserProvider = ({ children }) => {
     const onAuthStateChange = () => {
 
         return fbInstance.auth.onAuthStateChanged(async (user) => {
-            console.log('onAuthStateChanged', user?.email);
 
             if (user) {
                 const userRef = await fbInstance.db.doc(`users/${user.uid}`).get() as firebase.firestore.DocumentSnapshot<I_User>

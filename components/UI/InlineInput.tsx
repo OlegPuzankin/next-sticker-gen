@@ -8,6 +8,8 @@ interface Props {
         type: string,
         value: string,
         placeholder?: string
+        min?: number
+        max?: number
     }
 
     labelWidth?: number

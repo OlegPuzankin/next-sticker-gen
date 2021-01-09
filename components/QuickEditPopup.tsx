@@ -28,7 +28,7 @@ export function QuickEditPopup({ closeHandler }: Props) {
         },
         validationSchema: Yup.object({
             lotNumber: Yup.string().required('Required'),
-            harvestYear: Yup.string().required('Required'),
+            harvestYear: Yup.number().required('Required').moreThan(1989, 'year must be more than 1990').lessThan((new Date().getFullYear()) + 1),
             bottlingYear: Yup.string().required('Required'),
         }),
         onSubmit: async (values) => {
@@ -89,7 +89,9 @@ export function QuickEditPopup({ closeHandler }: Props) {
                                 type: 'number',
                                 onChange: formik.handleChange,
                                 onBlur: formik.handleBlur,
-                                placeholder: 'Harvest year'
+                                placeholder: 'Harvest year',
+                                min: 1990,
+                                max: new Date().getFullYear()
                             }}
                             error={formik.touched.harvestYear && formik.errors.harvestYear}
                             labelWidth={150}

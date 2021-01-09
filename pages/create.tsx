@@ -123,7 +123,7 @@ export default function Create() {
         color: 'червоне',
         country: '',
 
-        harvestYear: '2018',
+        harvestYear: '',
         lotNumber: 'lot number ХХХХ',
         producer: '',
         region: '',
@@ -147,7 +147,7 @@ export default function Create() {
             stickerTitle: Yup.string().required('Required'),
             producer: Yup.string().required('Required'),
             lotNumber: Yup.string().required('Required'),
-            harvestYear: Yup.string().required('Required'),
+            harvestYear: Yup.number().required('Required').moreThan(1989, 'type number more than 1990').lessThan((new Date().getFullYear()) + 1),
             bottlingYear: Yup.string().required('Required'),
             country: Yup.string().required('Required'),
         }),
@@ -322,6 +322,8 @@ export default function Create() {
     }
 
 
+
+
     return (
         <Layout title={'Sticker creation'}>
             {loading && <Loader />}
@@ -461,7 +463,10 @@ export default function Create() {
                                 type: 'number',
                                 onChange: formik.handleChange,
                                 onBlur: formik.handleBlur,
-                                placeholder: 'Harvest year'
+                                placeholder: 'from 1990 to current year',
+                                min: 1990,
+                                max: new Date().getFullYear()
+
                             }}
                             labelWidth={150}
                             label={'Harvest year'}
