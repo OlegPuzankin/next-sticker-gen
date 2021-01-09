@@ -9,12 +9,13 @@ interface Props {
     value?: string
     label?: string
     rows?: number
+    required?: boolean
 }
 
-export const TextArea = ({ handleChange, handleBlur, placeholder, value, error, label, rows, name }: Props) => {
+export const TextArea = ({ handleChange, handleBlur, placeholder, value, error, label, rows, name, required }: Props) => {
 
     return (
-        <div className="form-group">
+        <div className="form-group mb-1">
             {/* <label>{label}</label> */}
             <textarea
                 placeholder={placeholder}
@@ -23,6 +24,7 @@ export const TextArea = ({ handleChange, handleBlur, placeholder, value, error, 
                 value={value}
                 onBlur={handleBlur}
                 onChange={handleChange}
+                required={required}
                 rows={rows} />
         </div>
     );

@@ -11,6 +11,7 @@ import { Loader } from '../../components/UI/Loader';
 import { TextArea } from '../../components/UI/TextArea';
 import { fbInstance } from '../../firebase/firebase';
 import { I_Producer } from '../../redux/interfaces';
+import * as Yup from 'yup';
 
 export default function DashboardProducers() {
 
@@ -62,12 +63,13 @@ export default function DashboardProducers() {
             newProducerFullData: '',
 
         },
+        validationSchema: Yup.object({
+            newProducerName: Yup.string().required('Required'),
+            newProducerFullData: Yup.string().required('Required'),
+        }),
         onSubmit: (values) => addProducer(values)
 
     })
-
-
-
 
     async function addProducer(values: formikValues) {
         debugger
@@ -92,8 +94,7 @@ export default function DashboardProducers() {
         setSelectedProducer(producerId)
 
     }
-
-
+    console.log('errors', formik.errors);
 
 
     return (
@@ -101,38 +102,41 @@ export default function DashboardProducers() {
             <DashboardNavs />
             {loading && <Loader />}
             <div className='dashboard w-50'>
-                <form className='d-flex w-100 mb-2' onSubmit={formik.handleSubmit}>
-                    <Input
-                        type={'text'}
-                        name='newProducerName'
-                        value={formik.values.newProducerName}
-                        error={formik.touched.newProducerName && formik.errors.newProducerName}
+                <form className='dashboard-producers-fields' onSubmit={formik.handleSubmit}>
+                    <div className='d-flex mb-2'>
+                        <Input
+                            type={'text'}
+                            name='newProducerName'
+                            value={formik.values.newProducerName}
+                            error={formik.touched.newProducerName && formik.errors.newProducerName}
+                            placeholder={'Producer name'}
+                            handleChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            required
 
-                        placeholder={'Producer name'}
-                        handleChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
+                        />
+                        <div className='ml-2 w-25'>
+                            <button type='submit' className={'btn btn-info w-100'}>Add producer</button>
+                        </div>
+                    </div>
 
-                    />
-                    <div className='ml-2 w-25'>
-
-                        <button type='submit' className={'btn btn-info w-100'}>Add producer</button>
+                    <div className='w-100'>
+                        <TextArea
+                            name='newProducerFullData'
+                            value={formik.values.newProducerFullData}
+                            error={formik.touched.newProducerFullData && formik.errors.newProducerFullData}
+                            label={'Producer full data'}
+                            placeholder={'Producer full data'}
+                            handleChange={formik.handleChange}
+                            handleBlur={formik.handleBlur}
+                            rows={4}
+                            required={true}
+                        />
                     </div>
 
                 </form>
 
-                <div className='w-100'>
-                    <TextArea
-                        name='newProducerFullData'
-                        value={formik.values.newProducerFullData}
-                        error={formik.touched.newProducerFullData && formik.errors.newProducerFullData}
-                        label={'Producer full data'}
-                        placeholder={'Producer full data'}
-                        handleChange={formik.handleChange}
-                        handleBlur={formik.handleBlur}
-                        rows={4}
 
-                    />
-                </div>
 
                 <div className='dashboard-list h-40vh hide-scrollbar'>
 

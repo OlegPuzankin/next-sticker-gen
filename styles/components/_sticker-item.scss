@@ -9,10 +9,11 @@
     margin-bottom: 0.25rem;
     padding:0.5rem 0.75rem;
     
-    & div>*{
+    & div>*:not(:last-child){
         margin-right: .5rem;
     }
     &_selected{
          background-color: rgba($color: orange, $alpha: 0.4);
     }
+   
 }

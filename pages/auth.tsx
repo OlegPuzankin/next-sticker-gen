@@ -4,6 +4,8 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import { Input } from '../components/UI/Input';
 import React from 'react';
+import * as Yup from 'yup';
+
 
 function Auth() {
     const [login, setLogin] = React.useState(true);
@@ -20,6 +22,7 @@ function Auth() {
             password: 'user@user.com',
             userName: ''
         },
+
         onSubmit: async ({ email, password, userName }) => {
             try {
                 if (login) {

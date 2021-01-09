@@ -35,26 +35,12 @@ function Stickers() {
     const dispatch = useDispatch()
     const stickers = useSelector((state: StoreState) => state.stickers.stickers)
 
-    const { user, userLoading } = React.useContext(UserContext)
     const router = useRouter()
 
 
     const [lastVisibleId, setLastVisibleId] = React.useState<string>(null)
     const [loading, setLoading] = React.useState(true)
-    // const [stickers, setStickers] = React.useState<Array<StickerType>>([])
     const stickersBundle = useSelector((state: StoreState) => state.stickers.stickersBundle)
-
-
-    // React.useEffect(() => {
-    //     console.log('user', user?.email);
-    //     console.log('userLoading', userLoading);
-
-    //     if (!userLoading && !user) {
-    //         router.push('/auth')
-    //     }
-
-    // }, [user])
-
 
 
 
@@ -74,11 +60,6 @@ function Stickers() {
 
                 }).catch(e => {
                     setLoading(false)
-
-                    if (e === 'FirebaseError: Missing or insufficient permissions') {
-                        router.push('/auth')
-                    }
-
                 })
         }
 

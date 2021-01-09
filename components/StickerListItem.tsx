@@ -47,26 +47,15 @@ export function StickerListItem({ sticker, quickEdit, user }: Props) {
     return (
         <div className={cn('sticker-item', { 'sticker-item_selected': sticker.addedToBundle })} >
             <div className=''>
-                <span className="badge badge-primary">Producer: {sticker.producer.name}</span>
-                {/* <span >{sticker.producer}</span> */}
                 <span className="badge badge-warning">Title:{sticker.originalTitle}</span>
-
-                {/* <span>{sticker.originalTitle}</span> */}
-                {/* <span>{sticker.color}</span> */}
-                {/* <span>{created}</span> */}
-                {/* <span>{sticker.region}</span> */}
+                <span className="badge badge-primary">Producer: {sticker.producer.name}</span>
                 <span className="badge badge-dark">SKU:{sticker.sku}</span>
-
-                {/* <span>{sticker.sku}</span> */}
                 <span onClick={() => quickEdit()}
                     className="badge badge-secondary cursor-pointer"> Vintage:{sticker.harvestYear}</span>
-                {/* <span>{sticker.harvestYear}</span> */}
                 <span onClick={() => quickEdit()}
                     className="badge badge-success cursor-pointer"> Lot number:{sticker.lotNumber}</span>
-                {/* <span>{sticker.lotNumber}</span> */}
                 <span onClick={() => quickEdit()}
                     className="badge badge-light cursor-pointer"> Bottling date:{sticker.bottlingYear}</span>
-                {/* <span>{sticker.bottlingYear}</span> */}
             </div>
 
             <div className='d-flex'>
@@ -75,9 +64,6 @@ export function StickerListItem({ sticker, quickEdit, user }: Props) {
                     <div className='icon' onClick={deleteSticker}>
                         <TrashIcon />
                     </div>}
-
-                {/* {user?.admin && <div onClick={redirectToEditSticker}
-                    className='cursor-pointer'>Edit sticker</div>} */}
 
                 {user?.admin && <div onClick={() => redirectToEditSticker()} className='icon'>
                     <EditIcon />

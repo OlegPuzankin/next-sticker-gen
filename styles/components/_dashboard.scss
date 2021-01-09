@@ -19,9 +19,15 @@
     align-items: center;
 
     &-list{
-        padding: 0.25rem;
+        // padding: 0.25rem;
         width: 100%;
         overflow-y: scroll;
+    }
+    &-producers-fields{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0.25rem;
     }
 
 }

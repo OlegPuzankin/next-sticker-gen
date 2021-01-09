@@ -14,6 +14,8 @@ import { EditNamePopup } from '../../components/EditNamePopup';
 import { GetServerSideProps } from 'next';
 import { checkAuth } from '../../utils/server-functions';
 import { Input } from '../../components/UI/Input';
+import * as Yup from 'yup';
+
 
 export default function DashboardGrapes() {
 
@@ -59,9 +61,13 @@ export default function DashboardGrapes() {
     const formik = useFormik({
         initialValues: {
             newGrape: '',
-            grape: ''
+            // grape: ''
 
         },
+        validationSchema: Yup.object({
+            newGrape: Yup.string().required('Required'),
+        }),
+
         onSubmit: async (values) => addGrape(values)
 
     })
@@ -109,7 +115,7 @@ export default function DashboardGrapes() {
 
                     />
                     <div className='ml-2 w-25'>
-                        <button type='submit' className={'btn btn-info w-100'}>Add grape</button>
+                        <button disabled={!formik.values.newGrape} type='submit' className={'btn btn-info w-100'}>Add grape</button>
                     </div>
 
                 </form>

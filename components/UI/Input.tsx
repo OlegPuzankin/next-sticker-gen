@@ -1,3 +1,5 @@
+import cn from 'classnames'
+
 interface Props {
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
@@ -21,7 +23,7 @@ export function Input(props: Props) {
             value={value}
             type={type}
             id={id}
-            className="form-control"
+            className={cn("form-control")}
             placeholder={placeholder}
             required={required} />
     )
