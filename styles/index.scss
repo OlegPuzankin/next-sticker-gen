@@ -1,24 +1,20 @@
+@import "./mixins/mixins";
 
-@import './components/sticker-item';
-@import './components/icons';
-@import './components/loader';
-@import './components/load-more-button';
-@import './components/navbar';
-@import './components/selected_grape_badge';
-@import './components/dashboard';
-@import './components/search-box';
-
+@import "./components/sticker-item";
+@import "./components/icons";
+@import "./components/loader";
+@import "./components/load-more-button";
+@import "./components/navbar";
+@import "./components/selected_grape_badge";
+@import "./components/dashboard";
+@import "./components/search-box";
 
 // pages
 
-@import './pages/auth_page';
-@import './pages/create_new_page';
-@import './pages/home_page';
-
+@import "./pages/auth_page";
+@import "./pages/create_new_page";
+@import "./pages/home_page";
 
 //utils
-@import './common.scss';
-@import './animation.scss'
-
-
-
+@import "./common.scss";
+@import "./animation.scss";

@@ -8,7 +8,6 @@ import { getStickerWordData } from './sticker-output-utils';
 
 export async function saveToWord(stickers: Array<StickerType>) {
 
-
     const doc = new Document({
         styles: {
 

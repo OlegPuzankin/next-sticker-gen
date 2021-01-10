@@ -67,10 +67,6 @@ export const Navbar = () => {
                     : (<NavLink href='/auth' defaultClassName={'nav-item nav-link font-weight-bold'} linkName={'AUTH'} />)
                 } */}
             </div>
-
-
-
-
         </div>
     )
 };
