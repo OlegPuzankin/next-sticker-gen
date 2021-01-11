@@ -112,11 +112,8 @@ export function SearchBox() {
   }, [formik.values.country]);
 
   return (
-    <div className="search-container">
-      <div className="search-type-btn">
-        <SearchDropDown handleSelect={setSearchType} />
-      </div>
-
+    <div className="search-box">
+      <SearchDropDown handleSelect={setSearchType} />
       {searchType === "producer" && (
         <ComboBoxWithButton
           name="producer"

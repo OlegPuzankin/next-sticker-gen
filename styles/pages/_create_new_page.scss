@@ -1,59 +1,80 @@
-@import '../colors';
+@import "../colors";
 
-.form-container{
-    width:80%;
-    margin: 0 auto;
-    display: grid;
-    gap: 0.25rem;
-    grid-template-columns: repeat(9, 1fr);
+.form-container {
+  //   width: 100%;
+  //   margin: 0 auto;
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: repeat(9, 1fr);
 }
 
-.original-title{
-    grid-column: 1/ span 7;
+.original-title {
+  grid-column: 1 / span 7;
+  @include respond(medium) {
+    grid-column: 1 / -1;
+  }
 }
-.create-btn{
-    grid-column: 8 / span 2;
-    padding-left: 1rem;
+.create-btn {
+  grid-column: 8 / span 2;
+  @include respond(medium) {
+    grid-column: 1 / -1;
+    // grid-row: 2;
+  }
+  //   padding-left: 1rem;
 }
-.sticker-title{
-    grid-row: 2/3;
-    grid-column: 1/span 7;
+.sticker-title {
+  grid-row: 2/3;
+  grid-column: 1 / span 7;
+  @include respond(medium) {
+    grid-column: 1 / -1;
+  }
 }
-.clear-form-btn{
-    grid-row: 2/3;
-    grid-column: 8/ span 2;
-    padding-left: 1rem;
+.clear-form-btn {
+  grid-row: 2/3;
+  grid-column: 8 / span 2;
+  @include respond(medium) {
+    grid-column: 1 / -1;
+    // grid-row: 1;
+  }
+  //   padding-left: 1rem;
 }
-.basic-parameters{
-    grid-column: 1/span 3;
-    
+.basic-parameters {
+  grid-column: 1 / span 3;
+  @include respond(medium) {
+    grid-column: 1 / -1;
+  }
 }
-.column-label{
+.column-label {
+  color: #fff;
+  background-color: $color-invers;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.region-parameters {
+  grid-column: 4 / span 3;
+  &-label {
     color: #fff;
-        background-color:$color-invers;
-        text-transform: uppercase;
-        padding: .5rem 0.75rem;
-        text-align: center;
-        margin-bottom: .5rem;
-
+    background-color: $color-invers;
+    text-transform: uppercase;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+  }
+  @include respond(medium) {
+    grid-column: 1 / -1;
+  }
 }
-.region-parameters{
-    grid-column: 4/span 3;
-    &-label{
-        color: #fff;
-        background-color: $color-invers;
-        text-transform: uppercase;
-        padding: .5rem 0.75rem;
-        text-align: center;
-    }
-}
-.grapes-data{
-    grid-column: 7/span 3;
-    &-label{
-        color: #fff;
-        background-color: $color-invers;
-        text-transform: uppercase;
-        padding: .5rem 0.75rem;
-        text-align: center;
-    }
+.grapes-data {
+  grid-column: 7 / span 3;
+  &-label {
+    color: #fff;
+    background-color: $color-invers;
+    text-transform: uppercase;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+  }
+  @include respond(medium) {
+    grid-column: 1 / -1;
+  }
 }

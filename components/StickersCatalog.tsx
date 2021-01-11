@@ -9,6 +9,8 @@ import { QuickEditPopup } from "./QuickEditPopup";
 import { UserContext } from "./UserProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { SetQuickEditSticker } from "../redux/actions";
+import { StoreState } from "../redux/reducers";
+import { saveToWord } from "../utils/saveDocx";
 
 interface Props {
   loading: boolean;
@@ -25,6 +27,9 @@ export function StickersCatalog({
   loadMoreStickers,
 }: Props) {
   const dispatch = useDispatch();
+  const stickersBundle = useSelector(
+    (state: StoreState) => state.stickers.stickersBundle
+  );
 
   const { user } = React.useContext(UserContext);
   const [showPopup, setShowPopup] = React.useState<boolean>(false);
@@ -38,7 +43,23 @@ export function StickersCatalog({
     <Layout title={"catalog"}>
       {loading && <Loader />}
 
-      <SearchBox />
+      <div className="search-container">
+        <SearchBox />
+
+        {stickersBundle?.length > 0 && (
+          <button
+            id="export_word"
+            onClick={() => saveToWord(stickersBundle)}
+            type="button"
+            className="btn btn-primary"
+          >
+            Export to Word
+            <span className="ml-2 badge badge-warning">
+              {stickersBundle.length}
+            </span>
+          </button>
+        )}
+      </div>
 
       {!loading && stickers?.length === 0 ? (
         <h2 className="text-center">No stickers found</h2>

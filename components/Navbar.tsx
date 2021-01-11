@@ -43,7 +43,7 @@ export const Navbar = () => {
         />
       )}
 
-      {stickersBundle?.length > 0 && (
+      {/* {stickersBundle?.length > 0 && (
         <button
           onClick={() => saveToWord(stickersBundle)}
           type="button"
@@ -54,7 +54,7 @@ export const Navbar = () => {
             {stickersBundle.length}
           </span>
         </button>
-      )}
+      )} */}
 
       {user && (
         <div className="btn-group">

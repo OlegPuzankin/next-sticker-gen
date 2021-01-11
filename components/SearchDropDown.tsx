@@ -4,10 +4,10 @@ interface Props {
 
 export function SearchDropDown({ handleSelect }: Props) {
   return (
-    <>
+    <div className="search">
       <button
         type="button"
-        className="btn btn-secondary dropdown-toggle"
+        className="btn btn-secondary dropdown-toggle mr-2"
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
@@ -41,6 +41,6 @@ export function SearchDropDown({ handleSelect }: Props) {
           Find recent stickers
         </div>
       </div>
-    </>
+    </div>
   );
 }
