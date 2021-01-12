@@ -70,18 +70,13 @@ async function getMoreRecent({ count = 5, lastVisibleId }: QueryArgs) {
 
 }
 async function searchByProducer({ producerId, count = 5 }: QueryArgs) {
-    // debugger
-    // const prodRef = await fbInstance.db.doc(`_producers/${producerId}`).get() as firebase.firestore.DocumentSnapshot<I_Producer>
-    // if (!prodRef.exists)
-    //     return
-    // debugger
+
 
     const snapshot = await fbInstance.db.collection('_stickers')
         .where('producer.id', '==', producerId)
         .orderBy('created', 'desc')
         .limit(count)
         .get()
-    debugger
 
     return processData(snapshot, count)
 
@@ -225,14 +220,12 @@ export async function getCollection<T, K>(docPath: string, keys: Array<keyof T>,
 }
 
 export async function saveSticker(id: string, sticker: StickerType) {
-    debugger
     await fbInstance.db.doc('_stickers/data').update({
         [id]: sticker
     })
 }
 
 export async function saveStickerDoc(sticker: StickerType) {
-    debugger
     await fbInstance.db.collection('_stickers').add(sticker)
 
 }

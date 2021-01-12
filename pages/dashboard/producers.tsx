@@ -70,7 +70,6 @@ export default function DashboardProducers() {
   });
 
   async function addProducer(values: formikValues) {
-    debugger;
     const id = fbInstance.db.collection("_producers").doc().id;
     await fbInstance.db.doc("_producers/data").update({
       [id]: {
@@ -82,7 +81,6 @@ export default function DashboardProducers() {
   }
   async function deleteProducer(producerId: string) {
     let confirmDelete = confirm("Delete item?");
-    debugger;
     if (confirmDelete) {
       await fbInstance.db
         .doc("_producers/data")

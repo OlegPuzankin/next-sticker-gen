@@ -29,7 +29,6 @@ export function EditProducerPopup({ closeHandler, producer }: Props) {
             producerFullData: Yup.string().required('Required')
         }),
         onSubmit: async (values) => {
-            debugger
             await fbInstance.db.doc('_producers/data').update({ [producer.id]: { name: values.producerName, producerFullData: values.producerFullData } })
             closeHandler()
         },

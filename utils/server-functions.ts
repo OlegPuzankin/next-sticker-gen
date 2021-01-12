@@ -4,7 +4,6 @@ import { parseCookies } from 'nookies'
 import axios from 'axios'
 
 export async function checkAuth(ctx: GetServerSidePropsContext) {
-    debugger
     const { firebaseAuthToken } = parseCookies(ctx)
 
     try {

@@ -72,7 +72,6 @@ export async function saveToWord(stickers: Array<StickerType>) {
     });
 
     const children = await getStickerWordData(stickers, doc)
-    debugger
     //todo
     doc.addSection({
         children: children

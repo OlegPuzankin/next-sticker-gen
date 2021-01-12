@@ -30,7 +30,6 @@ export function EditNamePopup({ closeHandler, item, firestorePath, editField }: 
             name: Yup.string().required('Required'),
         }),
         onSubmit: async (values) => {
-            debugger
             await fbInstance.db.doc(firestorePath).update({ [item.id]: { ...item, name: values.name } })
             closeHandler()
         },

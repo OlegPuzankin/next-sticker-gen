@@ -1,12 +1,16 @@
 @import "./mixins/mixins";
 
-body {
-  @include respond(medium) {
-    font-size: 0.8rem !important;
-  }
-  // @include respond(small) {
-  //   font-size: 0.5rem !important;
-  // }
+// body {
+//   @include respond(medium) {
+//     font-size: 0.8rem !important;
+//   }
+//   // @include respond(small) {
+//   //   font-size: 0.5rem !important;
+//   // }
+// }
+
+select:focus {
+  outline: none;
 }
 
 .container-fluid {

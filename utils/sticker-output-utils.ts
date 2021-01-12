@@ -56,7 +56,6 @@ export function getDesription(
     }
     // const grapes=sticker.selectedGrapes.map(g=>g.toLowerCase())
     // const grapesResult = grapes.join(', ');
-    // debugger
     result.push(`Рік врожаю: ${harvestYear}. `);
 
     const _selectedGrapesNames = selectedGrapes.map(g => g.name)
@@ -91,7 +90,6 @@ export function getVolume(volume: string) {
 }
 
 export async function getStickerWordData(stickers: Array<StickerType>, doc: Document) {
-    debugger
     let children: Array<(Paragraph | Table | PageBreak)> = []
 
 
@@ -109,9 +107,7 @@ export async function getStickerWordData(stickers: Array<StickerType>, doc: Docu
         const bottlingDate = format(new Date(sticker.bottlingYear), 'dd.MM.yyyy');
 
         //todo - put barcode from incoming sticker
-        debugger
         const imageBase64 = await axios.post('/api/bc', { barcode: sticker.barcode })
-        debugger
         const image1 = Media.addImage(
             doc,
             Buffer.from(imageBase64.data, "base64"), 250, 100, {
@@ -220,7 +216,6 @@ export async function getStickerWordData(stickers: Array<StickerType>, doc: Docu
 
     }
 
-    debugger
     return children
 
 }

@@ -74,7 +74,6 @@ export default function DashboardGrapes() {
 
     async function deleteGrape(grapeId: string) {
         let confirmDelete = confirm("Delete item?");
-        debugger
         if (confirmDelete) {
             await fbInstance.db.doc('_grapes/data').update({ [grapeId]: firebase.firestore.FieldValue.delete() })
             formik.setFieldValue('newGrape', '')
@@ -82,7 +81,6 @@ export default function DashboardGrapes() {
     }
 
     async function addGrape(values) {
-        debugger
         const id = fbInstance.db.collection('_grapes').doc().id
         await fbInstance.db.doc('_grapes/data').update({ [id]: { name: values.newGrape } })
         formik.setFieldValue('newGrape', '')

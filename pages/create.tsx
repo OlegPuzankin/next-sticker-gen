@@ -55,7 +55,6 @@ export default function Create() {
   );
 
   async function saveSticker(values: FormikValuesType) {
-    debugger;
     if (router.query.editStickerId) {
       await fbInstance.db
         .doc(`_stickers/${router.query.editStickerId}`)
@@ -282,7 +281,6 @@ export default function Create() {
   //handle pick grape
   React.useEffect(() => {
     if (!formik.values.pickedGrape) return;
-    debugger;
     const selectedGrape: I_Grape = {
       id: formik.values.pickedGrape,
       name: subjects.grapes.map[formik.values.pickedGrape].name,
@@ -294,8 +292,6 @@ export default function Create() {
   }, [formik.values.pickedGrape]);
 
   function removeGrapeFromList(grapeId: string) {
-    debugger;
-
     const newSelectedGrapes = selectedGrapes.filter((g) => g.id !== grapeId);
     setSelectedGrapes(newSelectedGrapes);
 
@@ -303,12 +299,10 @@ export default function Create() {
       id: grapeId,
       name: subjects.grapes.map[grapeId].name,
     };
-    debugger;
     grapes.push(grape);
     grapes.sort((a, b) => (a.name > b.name ? 1 : -1));
     setGrapes(grapes);
     formik.setFieldValue("pickedGrape", "");
-    debugger;
   }
 
   async function handleSelectCountry(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -323,7 +317,6 @@ export default function Create() {
     });
 
     setFilteredRegions(data);
-    debugger;
     setFilteredAppellations([]);
   }
   async function handleSelectRegion(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -562,95 +555,76 @@ export default function Create() {
 
           <div className="region-parameters">
             <div className="column-label">Region parameters</div>
-            <div className="mb-1">
+            <InlineComboBox
+              label={"Producer"}
+              name={"producer"}
+              value={formik.values.producer}
+              items={subjects.producers.array.map((p) => {
+                return { value: p.id, displayText: p.name };
+              })}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              firstOption={"Select producer"}
+              labelWidth={120}
+              error={formik.touched.producer && formik.errors.producer}
+            />
+            <InlineComboBox
+              label={"Origin control"}
+              name={"regionControl"}
+              value={formik.values.regionControl}
+              items={regionControlTypes.map((rc) => {
+                return { value: rc, displayText: rc };
+              })}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              firstOption={"Select region control"}
+              labelWidth={120}
+              error={
+                formik.touched.regionControl && formik.errors.regionControl
+              }
+            />
+            <InlineComboBox
+              label={"Country"}
+              name={"country"}
+              value={formik.values.country}
+              items={subjects?.countries?.array.map((c) => {
+                return { value: c.id, displayText: c.name };
+              })}
+              handleChange={handleSelectCountry}
+              onBlur={formik.handleBlur}
+              firstOption={"Select country"}
+              labelWidth={120}
+              error={formik.touched.country && formik.errors.country}
+            />
+            {formik.values.country && filteredRegions.length > 0 && (
               <InlineComboBox
-                label={"Producer"}
-                name={"producer"}
-                value={formik.values.producer}
-                items={subjects.producers.array.map((p) => {
-                  return { value: p.id, displayText: p.name };
+                label={"Region"}
+                name={"region"}
+                value={formik.values.region}
+                items={filteredRegions.map((r) => {
+                  return { value: r.id, displayText: r.name };
                 })}
-                handleChange={formik.handleChange}
+                handleChange={handleSelectRegion}
                 onBlur={formik.handleBlur}
-                firstOption={"Select producer"}
+                firstOption={"Select region"}
                 labelWidth={120}
-                error={formik.touched.producer && formik.errors.producer}
+                error={formik.touched.region && formik.errors.region}
               />
-            </div>
-
-            <div className="mb-1">
-              <InlineComboBox
-                label={"Origin control"}
-                name={"regionControl"}
-                value={formik.values.regionControl}
-                items={regionControlTypes.map((rc) => {
-                  return { value: rc, displayText: rc };
-                })}
-                handleChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                firstOption={"Select region control"}
-                labelWidth={120}
-                error={
-                  formik.touched.regionControl && formik.errors.regionControl
-                }
-              />
-            </div>
-
-            <div className="mb-1">
-              <InlineComboBox
-                label={"Country"}
-                name={"country"}
-                value={formik.values.country}
-                items={subjects?.countries?.array.map((c) => {
-                  return { value: c.id, displayText: c.name };
-                })}
-                handleChange={handleSelectCountry}
-                onBlur={formik.handleBlur}
-                firstOption={"Select country"}
-                labelWidth={120}
-                error={formik.touched.country && formik.errors.country}
-              />
-            </div>
-
-            {formik.values.country && (
-              <div className="mb-1">
-                {filteredRegions.length > 0 && (
-                  <InlineComboBox
-                    label={"Region"}
-                    name={"region"}
-                    value={formik.values.region}
-                    items={filteredRegions.map((r) => {
-                      return { value: r.id, displayText: r.name };
-                    })}
-                    handleChange={handleSelectRegion}
-                    onBlur={formik.handleBlur}
-                    firstOption={"Select region"}
-                    labelWidth={120}
-                    error={formik.touched.region && formik.errors.region}
-                  />
-                )}
-              </div>
             )}
-            {formik.values.region && (
-              <div className="mb-1">
-                {filteredAppellations.length > 0 && (
-                  <InlineComboBox
-                    label={`Appellation`}
-                    name={"appellation"}
-                    value={formik.values.appellation}
-                    items={filteredAppellations.map((a) => {
-                      return { value: a.id, displayText: a.name };
-                    })}
-                    handleChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    firstOption={"Select appellation"}
-                    labelWidth={120}
-                    error={
-                      formik.touched.appellation && formik.errors.appellation
-                    }
-                  />
-                )}
-              </div>
+            {formik.values.region && filteredAppellations.length > 0 && (
+              <InlineComboBox
+                label={`Appellation`}
+                name={"appellation"}
+                value={formik.values.appellation}
+                items={filteredAppellations.map((a) => {
+                  return { value: a.id, displayText: a.name };
+                })}
+                handleChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                firstOption={"Select appellation"}
+                labelWidth={120}
+                error={formik.touched.appellation && formik.errors.appellation}
+              />
             )}
           </div>
 

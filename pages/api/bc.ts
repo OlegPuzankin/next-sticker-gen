@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import bwipjs from 'bwip-js'
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
-  debugger
 
 
   const buffer = bwipjs.toBuffer({
@@ -15,7 +14,6 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     includetext: true,            // Show human-readable text
     textxalign: 'center',        // Always good to set this
   }, (error, buffer) => {
-    debugger
     if (!error) {
       res.statusCode = 201
       res.send(buffer.toString('base64'))

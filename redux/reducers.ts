@@ -86,7 +86,6 @@ const userReducer = (state = initialUserState, action: Action): I_User_State => 
 
 
         case types.setUser:
-            debugger
             return {
                 ...state, user: action.payload
             }

@@ -54,27 +54,3 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 
-// export default async (req: NextApiRequest, res: NextApiResponse) => {
-//   debugger
-
-//   try {
-
-//     if (!req.body.firebaseAuthToken) {
-//       debugger
-//       res.redirect(307, 'http://localhost:3000/auth')
-//       return
-//     }
-
-
-//     const user = await validate(req.body.firebaseAuthToken);
-
-//     return res.status(200).send(user);
-//     debugger
-//   } catch (err) {
-//     debugger
-
-//     console.log(err);
-//     const result = undefined;
-//     return res.status(200).send(result);
-//   }
-// };
