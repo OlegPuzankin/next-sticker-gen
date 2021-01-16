@@ -1,71 +1,88 @@
-@import '../colors';
+@import "../colors";
 
 .dashboard-navs {
-    // padding: 0.75rem 5rem 0.75rem 5rem; 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    background-color: $color-light-gray;
-    
-    // border-bottom: 1px solid black;
+  // padding: 0.75rem 5rem 0.75rem 5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: $color-light-gray;
 
+  // border-bottom: 1px solid black;
 }
 
-.dashboard{
-    margin: 1rem auto;
+.dashboard {
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+
+  @include respond(medium) {
+    width: 90%;
+  }
+
+  &-list {
+    // padding: 0.25rem;
+    width: 100%;
+    overflow-y: scroll;
+  }
+  &-form {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-
-    &-list{
-        // padding: 0.25rem;
-        width: 100%;
-        overflow-y: scroll;
-    }
-    &-producers-fields{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 0.25rem;
-    }
-
-}
-
-.dashboard-item{
-    width: 100%;
-    height:2rem;
-    line-height: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba($color: #000000, $alpha: 0.1);
-    border-radius: 0.25rem;
     margin-bottom: 0.25rem;
-    padding:0.25rem 0.75rem;
-    cursor: pointer;
-
-    &_selected{
-         background-color: rgba($color: orange, $alpha: 0.4);
-    }
-    
+  }
 }
 
-.dashboard-geo{
-    // width: 90%;
-    margin: 0 auto;
-    display:grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(3, 1fr) ;
+.dashboard-item {
+  width: 100%;
+  height: 2rem;
+  line-height: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba($color: #000000, $alpha: 0.1);
+  border-radius: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
 
-    & div.list{
-        height:70vh;
-        // width: 100%;
-        overflow-y: scroll;
-    }
-
+  &_selected {
+    background-color: rgba($color: orange, $alpha: 0.4);
+  }
 }
 
+.geo {
+  // width: 90%;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
 
+  &-countries {
+    grid-column: 1/2;
+    @include respond(medium) {
+      grid-column: 1/-1;
+    }
+  }
+  &-regions {
+    grid-column: 2/3;
+    @include respond(medium) {
+      grid-column: 1/-1;
+    }
+  }
+  &-appellations {
+    grid-column: 3/4;
+    @include respond(medium) {
+      grid-column: 1/-1;
+    }
+  }
 
+  // & div.list {
+  //   // height: 70vh;
+  //   // width: 100%;
+  //   overflow-y: scroll;
+  // }
+}

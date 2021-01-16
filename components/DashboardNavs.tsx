@@ -1,16 +1,24 @@
-import React from 'react';
-import { NavLink } from './ActiveLink';
+import React from "react"
+import { NavLink } from "./ActiveLink"
 
 export const DashboardNavs = (props) => {
-
-
-
-    return (
-        <div className="dashboard-navs">
-            <NavLink href='/dashboard/geo' defaultClassName={'nav-item nav-link font-weight-bold'} linkName={'Edit geography'} />
-            <NavLink href='/dashboard/producers' defaultClassName={'nav-item nav-link font-weight-bold'} linkName={'Edit producers'} />
-            <NavLink href='/dashboard/grapes' defaultClassName={'nav-item nav-link font-weight-bold'} linkName={'Edit grapes'} />
-        </div>
-    )
-};
-
+  return (
+    <div className="dashboard-navs px-3 py-2">
+      <NavLink
+        href="/dashboard/geo"
+        defaultClassName={"font-weight-bold p-1"}
+        linkName={"Edit geography"}
+      />
+      <NavLink
+        href="/dashboard/producers"
+        defaultClassName={"font-weight-bold p-1 "}
+        linkName={"Edit producers"}
+      />
+      <NavLink
+        href="/dashboard/grapes"
+        defaultClassName={"font-weight-bold"}
+        linkName={"Edit grapes"}
+      />
+    </div>
+  )
+}

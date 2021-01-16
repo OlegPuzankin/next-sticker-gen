@@ -1,26 +1,25 @@
-import React from "react";
-import { NavLink } from "./ActiveLink";
-import { UserContext } from "./UserProvider";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { StoreState } from "../redux/reducers";
-import { fbInstance } from "../firebase/firebase";
-import { saveToWord } from "../utils/saveDocx";
-import { ResetStickers } from "../redux/actions";
-import Link from "next/link";
+import React from "react"
+import { NavLink } from "./ActiveLink"
+import { UserContext } from "./UserProvider"
+import { useRouter } from "next/router"
+import { useDispatch, useSelector } from "react-redux"
+import { StoreState } from "../redux/reducers"
+import { fbInstance } from "../firebase/firebase"
+import { ResetStickers } from "../redux/actions"
+import Link from "next/link"
 
 export const Navbar = () => {
-  const { user } = React.useContext(UserContext);
-  const router = useRouter();
+  const { user } = React.useContext(UserContext)
+  const router = useRouter()
   const stickersBundle = useSelector(
     (state: StoreState) => state.stickers.stickersBundle
-  );
-  const dispatch = useDispatch();
+  )
+  const dispatch = useDispatch()
 
   async function logout() {
-    await fbInstance.logout();
-    dispatch(ResetStickers());
-    router.push("/");
+    await fbInstance.logout()
+    dispatch(ResetStickers())
+    router.push("/")
   }
 
   return (
@@ -42,19 +41,6 @@ export const Navbar = () => {
           linkName={"DASHBOARD"}
         />
       )}
-
-      {/* {stickersBundle?.length > 0 && (
-        <button
-          onClick={() => saveToWord(stickersBundle)}
-          type="button"
-          className="btn btn-primary"
-        >
-          Export to Word
-          <span className="ml-2 badge badge-warning">
-            {stickersBundle.length}
-          </span>
-        </button>
-      )} */}
 
       {user && (
         <div className="btn-group">
@@ -79,5 +65,5 @@ export const Navbar = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
