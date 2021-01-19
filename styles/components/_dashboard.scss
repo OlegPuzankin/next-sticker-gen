@@ -1,14 +1,11 @@
 @import "../colors";
 
 .dashboard-navs {
-  // padding: 0.75rem 5rem 0.75rem 5rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
   background-color: $color-light-gray;
-
-  // border-bottom: 1px solid black;
 }
 
 .dashboard {
@@ -36,6 +33,7 @@
 }
 
 .dashboard-item {
+  color: #fff;
   width: 100%;
   height: 2rem;
   line-height: 1;
@@ -43,14 +41,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba($color: #000000, $alpha: 0.1);
+  background-color: rgba($color: #000000, $alpha: 0.4);
   border-radius: 0.25rem;
   margin-bottom: 0.25rem;
   padding: 0.5rem 0.75rem;
   cursor: pointer;
 
   &_selected {
-    background-color: rgba($color: orange, $alpha: 0.4);
+    background-color: rgba($color-gray-dark, $alpha: 0.2);
   }
 }
 

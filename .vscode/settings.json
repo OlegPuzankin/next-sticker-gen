@@ -1,4 +1,6 @@
 {
+  "editor.fontSize": 14,
+  // "editor.fontFamily": "Arial",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "prettier.semi": false,
