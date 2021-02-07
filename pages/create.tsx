@@ -1,16 +1,16 @@
-import firebase from "firebase";
-import { useFormik } from "formik";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Layout } from "../components/Layout";
-import SelectedGrapeBadge from "../components/SelectedGrapeBadge";
-import { InlineComboBox } from "../components/UI/InlineComboBox";
-import { InlineInput } from "../components/UI/InlineInput";
-import { Loader } from "../components/UI/Loader";
-import { Select } from "../components/UI/Select";
-import { UserContext } from "../components/UserProvider";
-import { getCollection, saveStickerDoc } from "../firebase/firebaseFunctions";
-import { SetSubjects } from "../redux/actions";
+import firebase from "firebase"
+import { useFormik } from "formik"
+import React from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Layout } from "../components/Layout"
+import SelectedGrapeBadge from "../components/SelectedGrapeBadge"
+import { InlineComboBox } from "../components/UI/InlineComboBox"
+import { InlineInput } from "../components/UI/InlineInput"
+import { Loader } from "../components/UI/Loader"
+import { Select } from "../components/UI/Select"
+import { UserContext } from "../components/UserProvider"
+import { getCollection, saveStickerDoc } from "../firebase/firebaseFunctions"
+import { SetSubjects } from "../redux/actions"
 import {
   AppellationsMap,
   CountriesMap,
@@ -23,46 +23,45 @@ import {
   ProducersMap,
   RegionsMap,
   StickerType,
-} from "../redux/interfaces";
-import { StoreState } from "../redux/reducers";
-import * as Yup from "yup";
-import { useRouter } from "next/router";
-import { InfoPopup } from "../components/InfoPopup";
-import { fbInstance } from "../firebase/firebase";
+} from "../redux/interfaces"
+import { StoreState } from "../redux/reducers"
+import * as Yup from "yup"
+import { useRouter } from "next/router"
+import { InfoPopup } from "../components/InfoPopup"
+import { fbInstance } from "../firebase/firebase"
+import { Switch } from "../components/UI/Switch"
 
-const regionControlTypes = ["none", "PDO", "PJI"];
-const colors = ["червоне", "біле", "рожеве"];
+const regionControlTypes = ["none", "PDO", "PJI"]
+const colors = ["червоне", "біле", "рожеве"]
 
 export default function Create() {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const [loading, setLoading] = React.useState(true);
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const [loading, setLoading] = React.useState(true)
   const [popup, setPopup] = React.useState<{ showPopup: boolean; msg: string }>(
     { showPopup: false, msg: "" }
-  );
-  const subjects = useSelector((state: StoreState) => state.stickers.subjects);
+  )
+  const subjects = useSelector((state: StoreState) => state.stickers.subjects)
   // const editSticker = useSelector((state: StoreState) => state.stickers.quickEditSticker)
-  const { user } = React.useContext(UserContext);
-  const [grapes, setGrapes] = React.useState<Array<I_Grape>>([]);
+  const { user } = React.useContext(UserContext)
+  const [grapes, setGrapes] = React.useState<Array<I_Grape>>([])
   const [filteredRegions, setFilteredRegions] = React.useState<Array<I_Region>>(
     []
-  );
+  )
   const [filteredAppellations, setFilteredAppellations] = React.useState<
     Array<I_Appellation>
-  >([]);
-  const [selectedGrapes, setSelectedGrapes] = React.useState<Array<I_Grape>>(
-    []
-  );
+  >([])
+  const [selectedGrapes, setSelectedGrapes] = React.useState<Array<I_Grape>>([])
 
   async function saveSticker(values: FormikValuesType) {
     if (router.query.editStickerId) {
       await fbInstance.db
         .doc(`_stickers/${router.query.editStickerId}`)
-        .update(getStickerObject(values));
-      setPopup({ showPopup: true, msg: "Sticker was updated" });
+        .update(getStickerObject(values))
+      setPopup({ showPopup: true, msg: "Sticker was updated" })
     } else {
-      await saveStickerDoc(getStickerObject(values));
-      setPopup({ showPopup: true, msg: "Sticker was created" });
+      await saveStickerDoc(getStickerObject(values))
+      setPopup({ showPopup: true, msg: "Sticker was created" })
     }
   }
   function getStickerObject(values: FormikValuesType): StickerType {
@@ -74,32 +73,32 @@ export default function Create() {
     const _country: I_Country = {
       id: values?.country,
       name: subjects.countries.map[values.country].name,
-    };
+    }
 
     const _producer: I_Producer = {
       id: values.producer,
       name: subjects.producers.map[values.producer].name,
       producerFullData:
         subjects.producers.map[values.producer].producerFullData,
-    };
-    let _region: I_Region = null;
+    }
+    let _region: I_Region = null
     if (formik.values.region) {
       _region = {
         id: values?.region,
         name: subjects.regions.map[values.region].name,
         country: subjects.countries.map[values.country].name,
         countryId: values.country,
-      };
+      }
     }
 
-    let _appellation: I_Appellation = null;
+    let _appellation: I_Appellation = null
     if (formik.values.appellation) {
       _appellation = {
         id: values?.appellation,
         name: subjects.appellations.map[values.appellation].name,
         region: subjects.regions.map[values.region].name,
         regionId: values.region,
-      };
+      }
     }
     return {
       alcohol: values.alcohol,
@@ -123,7 +122,9 @@ export default function Create() {
       volume: values.volume,
       barcode: values.barcode,
       authorId: user.id,
-    };
+      eMark: values.eMark,
+      organic: values.organic,
+    }
   }
 
   const initialValues = {
@@ -146,10 +147,12 @@ export default function Create() {
     sugar: "4",
     volume: "750",
     barcode: "978020137962",
+    eMark: false,
+    organic: false,
 
     pickedGrape: "",
-  };
-  type FormikValuesType = typeof initialValues;
+  }
+  type FormikValuesType = typeof initialValues
 
   const formik = useFormik({
     initialValues,
@@ -166,32 +169,32 @@ export default function Create() {
       country: Yup.string().required("Required"),
     }),
     onSubmit: (values) => saveSticker(values),
-  });
+  })
 
   //initial load
   React.useEffect(() => {
     async function loadData() {
-      setLoading(true);
+      setLoading(true)
       const { array: countries, map: countriesDoc } = await getCollection<
         I_Country,
         CountriesMap
-      >("_countries/data", ["name"], "name");
+      >("_countries/data", ["name"], "name")
       const { array: producers, map: producersDoc } = await getCollection<
         I_Producer,
         ProducersMap
-      >("_producers/data", ["name", "producerFullData"], "name");
+      >("_producers/data", ["name", "producerFullData"], "name")
       const { array: grapes, map: grapesDoc } = await getCollection<
         I_Grape,
         GrapesMap
-      >("_grapes/data", ["name"], "name");
+      >("_grapes/data", ["name"], "name")
       const { array: regions, map: regionsDoc } = await getCollection<
         I_Region,
         RegionsMap
-      >("_regions/data", ["name", "country", "countryId"], "name");
+      >("_regions/data", ["name", "country", "countryId"], "name")
       const { array: appellations, map: appellationDoc } = await getCollection<
         I_Appellation,
         AppellationsMap
-      >("_appellations/data", ["name", "region", "regionId"], "name");
+      >("_appellations/data", ["name", "region", "regionId"], "name")
 
       dispatch(
         SetSubjects({
@@ -201,20 +204,24 @@ export default function Create() {
           appellations: { array: appellations, map: appellationDoc },
           grapes: { array: grapes, map: grapesDoc },
         })
-      );
-      setGrapes(grapes);
+      )
+      setGrapes(grapes)
 
-      if (router.query.editStickerId) await loadSticker(grapes);
+      if (router.query.editStickerId) await loadSticker(grapes)
       // if (editSticker)
       //     await loadSticker(grapes, editSticker)
 
-      setLoading(false);
+      setLoading(false)
     }
+    //load edited sticker function. Grapes arg using for filtering whole list of grapes
+    /**
+     * @param grapes Information about the user.
+     */
     async function loadSticker(grapes: Array<I_Grape>) {
       const editSticker = await fbInstance.db
         .doc(`_stickers/${router.query.editStickerId}`)
         .get()
-        .then((docSnapshot) => docSnapshot.data() as StickerType);
+        .then((docSnapshot) => docSnapshot.data() as StickerType)
 
       // if (!editSticker) {
       //     router.push('/')
@@ -241,102 +248,107 @@ export default function Create() {
         sugar: editSticker.sugar,
         volume: editSticker.volume,
         barcode: editSticker.barcode,
+        eMark: editSticker.eMark || false,
+        organic: editSticker.organic || false,
 
         pickedGrape: "",
-      });
+      })
 
-      setSelectedGrapes(editSticker.selectedGrapes);
+      setSelectedGrapes(editSticker.selectedGrapes)
 
       //remove selected grapes from whole grapes list
       editSticker.selectedGrapes.forEach((sg) => {
         grapes.forEach((g, idx) => {
           if (g.id === sg.id) {
-            grapes.splice(idx, 1);
+            grapes.splice(idx, 1)
           }
-        });
-        setGrapes(grapes);
-      });
+        })
+        setGrapes(grapes)
+      })
       //filter regions and appellations according to loaded sticker
       if (!editSticker.region) {
-        return;
+        return
       }
       if (editSticker.region) {
         const data = subjects.regions.array.filter((r) => {
-          return r.countryId === editSticker.region.countryId;
-        });
-        setFilteredRegions(data);
+          return r.countryId === editSticker.region.countryId
+        })
+        setFilteredRegions(data)
       }
       if (editSticker.appellation) {
         const data = subjects.appellations.array.filter((r) => {
-          return r.regionId === editSticker.appellation.regionId;
-        });
-        setFilteredAppellations(data);
+          return r.regionId === editSticker.appellation.regionId
+        })
+        setFilteredAppellations(data)
       }
     }
 
-    loadData();
-  }, []);
+    loadData()
+  }, [])
   //load editing sticker to form
 
   //handle pick grape
   React.useEffect(() => {
-    if (!formik.values.pickedGrape) return;
+    if (!formik.values.pickedGrape) return
     const selectedGrape: I_Grape = {
       id: formik.values.pickedGrape,
       name: subjects.grapes.map[formik.values.pickedGrape].name,
-    };
-    setSelectedGrapes([...selectedGrapes, selectedGrape]);
+    }
+    setSelectedGrapes([...selectedGrapes, selectedGrape])
 
-    const data = grapes.filter((g) => g.id !== formik.values.pickedGrape);
-    setGrapes(data);
-  }, [formik.values.pickedGrape]);
+    const data = grapes.filter((g) => g.id !== formik.values.pickedGrape)
+    setGrapes(data)
+  }, [formik.values.pickedGrape])
 
   function removeGrapeFromList(grapeId: string) {
-    const newSelectedGrapes = selectedGrapes.filter((g) => g.id !== grapeId);
-    setSelectedGrapes(newSelectedGrapes);
+    const newSelectedGrapes = selectedGrapes.filter((g) => g.id !== grapeId)
+    setSelectedGrapes(newSelectedGrapes)
 
     const grape: I_Grape = {
       id: grapeId,
       name: subjects.grapes.map[grapeId].name,
-    };
-    grapes.push(grape);
-    grapes.sort((a, b) => (a.name > b.name ? 1 : -1));
-    setGrapes(grapes);
-    formik.setFieldValue("pickedGrape", "");
+    }
+    grapes.push(grape)
+    grapes.sort((a, b) => (a.name > b.name ? 1 : -1))
+    setGrapes(grapes)
+    formik.setFieldValue("pickedGrape", "")
   }
 
   async function handleSelectCountry(e: React.ChangeEvent<HTMLSelectElement>) {
-    const value = e.target.value;
-    const name = e.target.name;
-    formik.setFieldValue(name, value);
-    formik.setFieldValue("region", "");
-    formik.setFieldValue("appellation", "");
+    const value = e.target.value
+    const name = e.target.name
+    formik.setFieldValue(name, value)
+    formik.setFieldValue("region", "")
+    formik.setFieldValue("appellation", "")
 
     const data = subjects.regions.array.filter((r) => {
-      return r.countryId === value;
-    });
+      return r.countryId === value
+    })
 
-    setFilteredRegions(data);
-    setFilteredAppellations([]);
+    setFilteredRegions(data)
+    setFilteredAppellations([])
   }
   async function handleSelectRegion(e: React.ChangeEvent<HTMLSelectElement>) {
-    const value = e.target.value;
-    const name = e.target.name;
-    formik.setFieldValue(name, value);
+    const value = e.target.value
+    const name = e.target.name
+    formik.setFieldValue(name, value)
 
-    formik.setFieldValue("appellation", "");
+    formik.setFieldValue("appellation", "")
 
     const data = subjects.appellations.array.filter((a) => {
-      return a.regionId === value;
-    });
-    setFilteredAppellations(data);
+      return a.regionId === value
+    })
+    setFilteredAppellations(data)
   }
 
   async function clearForm() {
-    await router.push("/create");
-    formik.resetForm();
-    setSelectedGrapes([]);
+    await router.push("/create")
+    formik.resetForm()
+    setSelectedGrapes([])
   }
+
+  // console.log("ORGANIC", formik.values.organic)
+  // console.log("EMark", formik.values.eMark)
 
   return (
     <Layout title={"Sticker creation"}>
@@ -405,7 +417,7 @@ export default function Create() {
               name={"color"}
               value={formik.values.color}
               items={colors.map((color) => {
-                return { value: color, displayText: color };
+                return { value: color, displayText: color }
               })}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -551,6 +563,27 @@ export default function Create() {
               label={"Barcode EAN-13"}
               error={formik.touched.barcode && formik.errors.barcode}
             />
+            <div className="d-flex bg-secondary px-3 py-2 text-white">
+              <div className="mr-4">
+                <Switch
+                  inputAttributes={{
+                    name: "organic",
+                    checked: formik.values.organic,
+                    onChange: formik.handleChange,
+                  }}
+                  label={"Organic"}
+                />
+              </div>
+
+              <Switch
+                inputAttributes={{
+                  name: "eMark",
+                  checked: formik.values.eMark,
+                  onChange: formik.handleChange,
+                }}
+                label={"Insert Emark"}
+              />
+            </div>
           </div>
 
           <div className="region-parameters">
@@ -560,7 +593,7 @@ export default function Create() {
               name={"producer"}
               value={formik.values.producer}
               items={subjects.producers.array.map((p) => {
-                return { value: p.id, displayText: p.name };
+                return { value: p.id, displayText: p.name }
               })}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -573,7 +606,7 @@ export default function Create() {
               name={"regionControl"}
               value={formik.values.regionControl}
               items={regionControlTypes.map((rc) => {
-                return { value: rc, displayText: rc };
+                return { value: rc, displayText: rc }
               })}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -588,7 +621,7 @@ export default function Create() {
               name={"country"}
               value={formik.values.country}
               items={subjects?.countries?.array.map((c) => {
-                return { value: c.id, displayText: c.name };
+                return { value: c.id, displayText: c.name }
               })}
               handleChange={handleSelectCountry}
               onBlur={formik.handleBlur}
@@ -602,7 +635,7 @@ export default function Create() {
                 name={"region"}
                 value={formik.values.region}
                 items={filteredRegions.map((r) => {
-                  return { value: r.id, displayText: r.name };
+                  return { value: r.id, displayText: r.name }
                 })}
                 handleChange={handleSelectRegion}
                 onBlur={formik.handleBlur}
@@ -617,7 +650,7 @@ export default function Create() {
                 name={"appellation"}
                 value={formik.values.appellation}
                 items={filteredAppellations.map((a) => {
-                  return { value: a.id, displayText: a.name };
+                  return { value: a.id, displayText: a.name }
                 })}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -639,7 +672,7 @@ export default function Create() {
                 onChange: formik.handleChange,
               }}
               items={grapes.map(({ id, name }) => {
-                return { value: id, displayText: name };
+                return { value: id, displayText: name }
               })}
             />
 
@@ -656,7 +689,7 @@ export default function Create() {
                     grape={grape}
                     removeGrapeFromList={removeGrapeFromList}
                   />
-                );
+                )
               })}
           </div>
         </form>
@@ -669,7 +702,7 @@ export default function Create() {
         )}
       </div>
     </Layout>
-  );
+  )
 }
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {

@@ -1,4 +1,5 @@
-import { StickerType, SubjectsType } from './../redux/interfaces';
+import { route } from 'next/dist/next-server/server/router';
+import { StickerType } from './../redux/interfaces';
 import { Document, Packer, AlignmentType } from 'docx'
 import { saveAs } from 'file-saver'
 import { getStickerWordData } from './sticker-output-utils';
@@ -10,7 +11,6 @@ export async function saveToWord(stickers: Array<StickerType>) {
 
     const doc = new Document({
         styles: {
-
             paragraphStyles: [
                 {
                     id: "title",
@@ -58,7 +58,38 @@ export async function saveToWord(stickers: Array<StickerType>) {
                     quickFormat: true,
                     run: {
                         font: "Calibri",
+                        size: 24
+                    },
+                    paragraph: {
+                        alignment: AlignmentType.JUSTIFIED,
+                        spacing: { line: 276 },
+                    },
+                },
+                {
+                    id: "normalParaBold",
+                    name: "Normal Para Bold",
+                    basedOn: "Normal",
+                    next: "Normal",
+                    quickFormat: true,
+                    run: {
+                        font: "Calibri",
                         size: 24,
+                        bold: true
+                    },
+                    paragraph: {
+                        alignment: AlignmentType.JUSTIFIED,
+                        spacing: { line: 276 },
+                    },
+                },
+                {
+                    id: "normalPara36",
+                    name: "Normal Para Bold",
+                    basedOn: "Normal",
+                    next: "Normal",
+                    quickFormat: true,
+                    run: {
+                        font: "Calibri",
+                        size: 36,
                     },
                     paragraph: {
                         alignment: AlignmentType.JUSTIFIED,
@@ -66,16 +97,16 @@ export async function saveToWord(stickers: Array<StickerType>) {
                     },
                 },
 
-            ],
-
+            ]
         },
     });
 
-    const children = await getStickerWordData(stickers, doc)
+    // const children = await getStickerWordData(stickers, doc)
+    await getStickerWordData(stickers, doc)
     //todo
-    doc.addSection({
-        children: children
-    });
+    // doc.addSection({
+    //     children: children
+    // });
 
     Packer.toBlob(doc).then(blob => {
         saveAs(blob, "sticker.docx");

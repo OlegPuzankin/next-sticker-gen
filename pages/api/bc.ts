@@ -5,7 +5,6 @@ import bwipjs from 'bwip-js'
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
 
-
   const buffer = bwipjs.toBuffer({
     bcid: 'ean13',       // Barcode type
     text: req.body.barcode.toString(),    // Text to encode

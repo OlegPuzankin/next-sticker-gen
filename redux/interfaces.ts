@@ -71,6 +71,8 @@ export interface StickerType {
 
     barcode: string
     authorId: string
+    eMark: boolean,
+    organic: boolean,
 
     addedToBundle?: boolean
     isUpdated?: boolean
