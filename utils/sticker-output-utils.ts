@@ -51,7 +51,7 @@ export function getDesription(
 	servingTemperature: string,
 	region?: string,
 	appellation?: string,
-	organic?: boolean
+	organic: boolean = false
 
 ) {
 	const result = [];
@@ -63,8 +63,7 @@ export function getDesription(
 		else
 			result.push('. ')
 	}
-	// const grapes=sticker.selectedGrapes.map(g=>g.toLowerCase())
-	// const grapesResult = grapes.join(', ');
+
 	result.push(`Рік врожаю: ${harvestYear}. `);
 
 	const _selectedGrapesNames = selectedGrapes.map(g => g.name)
@@ -87,9 +86,9 @@ export function getShelfLifetime(shelfLifetime: string) {
 	if (Number(shelfLifetime) === 1)
 		return `1 рік`;
 	else if (Number(shelfLifetime) >= 5)
-		return `${shelfLifetime} років. `;
+		return `${shelfLifetime} років`;
 	else
-		return `${shelfLifetime} роки. `
+		return `${shelfLifetime} роки`
 }
 
 export function getSugar(sugar: string) {
@@ -103,10 +102,10 @@ export function getVolume(volume: string) {
 
 export async function getStickerWordData(stickers: Array<StickerType>, doc: Document) {
 
-	const insertEmark = true
 	let eImageBuffer = null
 	for (const sticker of stickers) {
 		// const title = getTitle(sticker);
+
 
 		const desription = getDesription(
 			sticker.country.name,
@@ -115,7 +114,7 @@ export async function getStickerWordData(stickers: Array<StickerType>, doc: Docu
 			sticker.servingTemperature,
 			sticker.region?.name,
 			sticker.appellation?.name,
-			sticker.organic
+			sticker?.organic
 		);
 		const bottlingDate = format(new Date(sticker.bottlingYear), 'dd.MM.yyyy');
 
@@ -155,7 +154,6 @@ export async function getStickerWordData(stickers: Array<StickerType>, doc: Docu
 					style: 'title',
 				}),
 				new Paragraph({ text: getTitle(sticker), style: 'title2', alignment: AlignmentType.CENTER }),
-				sticker.organic ? new Paragraph({ text: "Продукт органічний", style: 'title2' }) : new TextRun(''),
 
 				new Paragraph({
 					children: [
@@ -217,11 +215,17 @@ export async function getStickerWordData(stickers: Array<StickerType>, doc: Docu
 		if (image1) {
 			stickerContent.children.push(new Paragraph(image1))
 		}
+		if (sticker.organic) {
+			stickerContent.children.splice(2, 0, new Paragraph({ text: "Продукт органічний", style: 'title2' }))
+		}
+		// sticker.organic ? new Paragraph({ text: "Продукт органічний", style: 'title2' }) : new TextRun(''),
 
-		stickerContent.children.push(new Paragraph({
-			text: '',
-			pageBreakBefore: true
-		}))
+
+		// stickerContent.children.push(new Paragraph({
+		// 	text: '',
+		// 	pageBreakBefore: true
+		// }))
+
 
 		doc.addSection(stickerContent)
 	}
