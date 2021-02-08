@@ -4,14 +4,26 @@ import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import { Input } from "../components/UI/Input"
 import React from "react"
-import * as Yup from "yup"
 import { Loader } from "../components/UI/Loader"
+import { UserContext } from "../components/UserProvider"
+
+function getCookie(name: string) {
+  let matches = document.cookie.match(
+    new RegExp(
+      "(?:^|; )" +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        "=([^;]*)"
+    )
+  )
+  return matches ? decodeURIComponent(matches[1]) : undefined
+}
 
 function Auth() {
   const [login, setLogin] = React.useState(true)
   const [loginError, setLoginError] = React.useState(null)
   const [countTrySubmit, setCountTrySubmit] = React.useState(0)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  // const { user } = React.useContext(UserContext)
 
   const router = useRouter()
 
@@ -26,15 +38,29 @@ function Auth() {
       setIsSubmitting(true)
       try {
         if (login) {
-          console.log("start login")
           await fbInstance.login(email, password)
-          console.log("success login")
+          const timerId = setInterval(() => {
+            console.log("interval")
+            if (getCookie("firebaseAuthToken")) {
+              router.push("/stickers/?queryType=getRecent")
+              console.log("success redirect")
+              clearInterval(timerId)
+            }
+          }, 25)
+
           setIsSubmitting(false)
-          setTimeout(() => router.push("/stickers/?queryType=getRecent"), 500)
+          // setTimeout(() => router.push("/stickers/?queryType=getRecent"), 500)
         } else {
           await fbInstance.register(userName, email, password)
+          const timerId = setInterval(() => {
+            console.log("interval")
+            if (getCookie("firebaseAuthToken")) {
+              router.push("/stickers/?queryType=getRecent")
+              console.log("success redirect")
+              clearInterval(timerId)
+            }
+          }, 25)
           setIsSubmitting(false)
-          setTimeout(() => router.push("/stickers/?queryType=getRecent"), 500)
         }
       } catch (error) {
         setLoginError(error.message)

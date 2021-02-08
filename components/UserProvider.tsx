@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { destroyCookie, setCookie } from "nookies"
 import { fbInstance } from "../firebase/firebase"
 import firebase from "firebase"
@@ -9,6 +9,7 @@ const tokenName = "firebaseAuthToken"
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = React.useState<I_User | null>(null)
+  // const [setCookie, setUser] = React.useState<I_User | null>(null)
 
   const onAuthStateChange = () => {
     return fbInstance.auth.onAuthStateChanged(async (user) => {
@@ -16,14 +17,13 @@ const UserProvider = ({ children }) => {
         const userRef = (await fbInstance.db
           .doc(`users/${user.uid}`)
           .get()) as firebase.firestore.DocumentSnapshot<I_User>
-        setUser({ id: userRef.id, ...userRef.data() })
         //set cookie
         const token = await user.getIdToken()
         setCookie(null, tokenName, token, {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
         })
-        console.log("set cookie")
+        setUser({ id: userRef.id, ...userRef.data() })
       } else {
         setUser(null)
         destroyCookie(null, tokenName)
