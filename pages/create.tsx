@@ -36,6 +36,7 @@ const colors = ["червоне", "біле", "рожеве"]
 
 export default function Create() {
   const dispatch = useDispatch()
+
   const router = useRouter()
   const [loading, setLoading] = React.useState(true)
   const [popup, setPopup] = React.useState<{ showPopup: boolean; msg: string }>(
@@ -64,6 +65,11 @@ export default function Create() {
       setPopup({ showPopup: true, msg: "Sticker was created" })
     }
   }
+  async function saveAsCopy() {
+    await saveStickerDoc(getStickerObject(formik.values))
+    setPopup({ showPopup: true, msg: "Sticker was created" })
+  }
+
   function getStickerObject(values: FormikValuesType): StickerType {
     //todo
     // const _selectedGrapes = selectedGrapes.map(grapeId => {
@@ -128,8 +134,8 @@ export default function Create() {
   }
 
   const initialValues = {
-    originalTitle: "originalTitle",
-    stickerTitle: "stickerTitle",
+    originalTitle: "",
+    stickerTitle: "",
     alcohol: "13",
     appellation: "",
     bottlingYear: "2020-10-01",
@@ -137,7 +143,7 @@ export default function Create() {
     country: "",
 
     harvestYear: "",
-    lotNumber: "lot number ХХХХ",
+    lotNumber: "вказано на пляшці",
     producer: "",
     region: "",
     regionControl: "none",
@@ -146,7 +152,7 @@ export default function Create() {
     sku: "sku",
     sugar: "4",
     volume: "750",
-    barcode: "978020137962",
+    barcode: "",
     eMark: false,
     organic: false,
 
@@ -162,7 +168,7 @@ export default function Create() {
       producer: Yup.string().required("Required"),
       lotNumber: Yup.string().required("Required"),
       harvestYear: Yup.number()
-        .required("Required")
+        // .required("Required")
         .moreThan(1989, "type number more than 1990")
         .lessThan(new Date().getFullYear() + 1),
       bottlingYear: Yup.string().required("Required"),
@@ -222,11 +228,6 @@ export default function Create() {
         .doc(`_stickers/${router.query.editStickerId}`)
         .get()
         .then((docSnapshot) => docSnapshot.data() as StickerType)
-
-      // if (!editSticker) {
-      //     router.push('/')
-      //     return
-      // }
 
       formik.setValues({
         originalTitle: editSticker.originalTitle,
@@ -373,7 +374,7 @@ export default function Create() {
             />
           </div>
 
-          <div className="create-btn">
+          <div className="save-btn">
             <button
               disabled={selectedGrapes.length === 0}
               type="submit"
@@ -382,6 +383,19 @@ export default function Create() {
               {router.query.editStickerId ? "Update" : "Save"}
             </button>
           </div>
+
+          {router.query.editStickerId && (
+            <div className="save-copy-btn">
+              <button
+                onClick={saveAsCopy}
+                disabled={selectedGrapes.length === 0}
+                type="button"
+                className={"btn btn-primary w-100"}
+              >
+                Save as new
+              </button>
+            </div>
+          )}
 
           <div className="sticker-title">
             <InlineInput

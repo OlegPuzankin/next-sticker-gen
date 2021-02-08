@@ -1,42 +1,49 @@
-import { StickerType } from "../redux/interfaces";
-import { Layout } from "../components/Layout";
-import { StickerListItem } from "./StickerListItem";
-import React from "react";
-import { Loader } from "./UI/Loader";
-import { LoadMoreButton } from "./LoadMoreButton";
-import { SearchBox } from "./SearchBox";
-import { QuickEditPopup } from "./QuickEditPopup";
-import { UserContext } from "./UserProvider";
-import { useDispatch, useSelector } from "react-redux";
-import { SetQuickEditSticker } from "../redux/actions";
-import { StoreState } from "../redux/reducers";
-import { saveToWord } from "../utils/saveDocx";
+import { StickerType } from "../redux/interfaces"
+import { Layout } from "../components/Layout"
+import { StickerListItem } from "./StickerListItem"
+import React from "react"
+import { Loader } from "./UI/Loader"
+import { LoadMoreButton } from "./LoadMoreButton"
+import { SearchBox } from "./SearchBox"
+import { QuickEditPopup } from "./QuickEditPopup"
+import { UserContext } from "./UserProvider"
+import { useDispatch, useSelector } from "react-redux"
+import { SetQuickEditSticker } from "../redux/actions"
+import { StoreState } from "../redux/reducers"
+import { saveToWord } from "../utils/saveDocx"
 
 interface Props {
-  loading: boolean;
-  stickers: Array<StickerType>;
-  loadMoreStickers: () => Promise<void>;
-  lastVisibleId?: string;
-  error?: string;
+  loading: boolean
+  setLoading: Function
+  stickers: Array<StickerType>
+  loadMoreStickers: () => Promise<void>
+  lastVisibleId?: string
+  error?: string
 }
 
 export function StickersCatalog({
   loading,
+  setLoading,
   stickers,
   lastVisibleId,
   loadMoreStickers,
 }: Props) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const stickersBundle = useSelector(
     (state: StoreState) => state.stickers.stickersBundle
-  );
+  )
 
-  const { user } = React.useContext(UserContext);
-  const [showPopup, setShowPopup] = React.useState<boolean>(false);
+  const { user } = React.useContext(UserContext)
+  const [showPopup, setShowPopup] = React.useState<boolean>(false)
 
   function quickEditSticker(sticker: StickerType) {
-    dispatch(SetQuickEditSticker(sticker));
-    setShowPopup(true);
+    dispatch(SetQuickEditSticker(sticker))
+    setShowPopup(true)
+  }
+  async function exportToDOCX() {
+    setLoading(true)
+    await saveToWord(stickersBundle)
+    setLoading(false)
   }
 
   return (
@@ -49,7 +56,7 @@ export function StickersCatalog({
         {stickersBundle?.length > 0 && (
           <button
             id="export_word"
-            onClick={() => saveToWord(stickersBundle)}
+            onClick={exportToDOCX.bind(null, stickersBundle)}
             type="button"
             className="btn btn-primary"
           >
@@ -72,7 +79,7 @@ export function StickersCatalog({
               sticker={st}
               key={st.id}
             />
-          );
+          )
         })
       )}
       {/* LOAD MORE STICKERS BUTTON */}
@@ -86,5 +93,5 @@ export function StickersCatalog({
         />
       )}
     </Layout>
-  );
+  )
 }

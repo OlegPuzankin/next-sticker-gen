@@ -1,4 +1,3 @@
-import { route } from 'next/dist/next-server/server/router';
 import { StickerType } from './../redux/interfaces';
 import { Document, Packer, AlignmentType } from 'docx'
 import { saveAs } from 'file-saver'

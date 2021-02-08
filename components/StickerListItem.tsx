@@ -1,51 +1,51 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { I_User, StickerType } from "../redux/interfaces";
-import fb from "firebase";
+import React from "react"
+import { useDispatch } from "react-redux"
+import { I_User, StickerType } from "../redux/interfaces"
+import fb from "firebase"
 import {
   AddStickerToSet,
   RemoveSticker,
   RemoveStickerFromSet,
   SetEditSticker,
   SetQuickEditSticker,
-} from "../redux/actions";
-import { FileMinusIcon } from "./Icons/FileMinusIcon";
-import { FilePlusIcon } from "./Icons/FilePlusIcon";
-import cn from "classnames";
-import { EditIcon } from "./Icons/EditIcon";
-import { useRouter } from "next/router";
-import { fbInstance } from "../firebase/firebase";
-import { TrashIcon } from "./Icons/TrashIcon";
+} from "../redux/actions"
+import { FileMinusIcon } from "./Icons/FileMinusIcon"
+import { FilePlusIcon } from "./Icons/FilePlusIcon"
+import cn from "classnames"
+import { EditIcon } from "./Icons/EditIcon"
+import { useRouter } from "next/router"
+import { fbInstance } from "../firebase/firebase"
+import { TrashIcon } from "./Icons/TrashIcon"
 
 interface Props {
-  sticker: StickerType;
-  quickEdit: Function;
-  user: I_User;
+  sticker: StickerType
+  quickEdit: Function
+  user: I_User
 }
 
 export function StickerListItem({ sticker, quickEdit, user }: Props) {
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const dispatch = useDispatch()
+  const router = useRouter()
 
   async function deleteSticker() {
-    let confirmDelete = confirm("Delete sticker?");
+    let confirmDelete = confirm("Delete sticker?")
     if (confirmDelete) {
-      await fbInstance.db.doc(`_stickers/${sticker.id}`).delete();
-      dispatch(RemoveSticker(sticker.id));
+      await fbInstance.db.doc(`_stickers/${sticker.id}`).delete()
+      dispatch(RemoveSticker(sticker.id))
     }
   }
 
   function add() {
-    sticker.addedToBundle = true;
-    dispatch(AddStickerToSet(sticker));
+    sticker.addedToBundle = true
+    dispatch(AddStickerToSet(sticker))
   }
   function remove() {
-    sticker.addedToBundle = false;
-    dispatch(RemoveStickerFromSet(sticker));
+    sticker.addedToBundle = false
+    dispatch(RemoveStickerFromSet(sticker))
   }
   function redirectToEditSticker() {
     // dispatch(SetQuickEditSticker(sticker))
-    router.push(`/create?editStickerId=${sticker.id}`);
+    router.push(`/create?editStickerId=${sticker.id}`)
     // router.push('/create')
   }
 
@@ -54,7 +54,7 @@ export function StickerListItem({ sticker, quickEdit, user }: Props) {
     sticker.created.nanoseconds
   )
     .toDate()
-    .toDateString();
+    .toDateString()
   return (
     <div
       className={cn("sticker-item", {
@@ -73,27 +73,24 @@ export function StickerListItem({ sticker, quickEdit, user }: Props) {
           onClick={() => quickEdit()}
           className="badge badge-secondary cursor-pointer"
         >
-          {" "}
           Vintage:{sticker.harvestYear}
         </span>
         <span
           onClick={() => quickEdit()}
           className="badge badge-success cursor-pointer"
         >
-          {" "}
           Lot number:{sticker.lotNumber}
         </span>
         <span
           onClick={() => quickEdit()}
           className="badge badge-light cursor-pointer"
         >
-          {" "}
           Bottling date:{sticker.bottlingYear}
         </span>
       </div>
 
       <div className="ml-auto d-flex">
-        {user?.admin && (
+        {user?.id === sticker.authorId && (
           <div className="icon" onClick={deleteSticker}>
             <TrashIcon />
           </div>
@@ -116,5 +113,5 @@ export function StickerListItem({ sticker, quickEdit, user }: Props) {
         )}
       </div>
     </div>
-  );
+  )
 }

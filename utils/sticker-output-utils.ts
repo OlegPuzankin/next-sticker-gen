@@ -11,7 +11,7 @@ async function getBase64(url: string) {
 	return Buffer.from(response.data, 'binary').toString('base64');
 }
 
-export function getTitle(sticker: StickerType) {
+function getTitle(sticker: StickerType) {
 
 
 	const result = [];
@@ -44,7 +44,7 @@ export function getTitle(sticker: StickerType) {
 
 }
 
-export function getDesription(
+function getDesription(
 	country: string,
 	harvestYear: string,
 	selectedGrapes: Array<I_Grape>,
@@ -64,7 +64,8 @@ export function getDesription(
 			result.push('. ')
 	}
 
-	result.push(`Рік врожаю: ${harvestYear}. `);
+	if (harvestYear)
+		result.push(`Рік врожаю: ${harvestYear}. `);
 
 	const _selectedGrapesNames = selectedGrapes.map(g => g.name)
 
@@ -82,7 +83,7 @@ export function getDesription(
 	return result.join('');
 }
 
-export function getShelfLifetime(shelfLifetime: string) {
+function getShelfLifetime(shelfLifetime: string) {
 	if (Number(shelfLifetime) === 1)
 		return `1 рік`;
 	else if (Number(shelfLifetime) >= 5)
@@ -91,12 +92,12 @@ export function getShelfLifetime(shelfLifetime: string) {
 		return `${shelfLifetime} роки`
 }
 
-export function getSugar(sugar: string) {
-	return Number(sugar) > 4 ? `Вміст цукру: ${Number(sugar) / 10} mass.(% мас.)` : ''
+function getSugar(sugar: string) {
+	return Number(sugar) > 4 ? `Вміст цукру: ${Number(sugar) / 10} % мас.(% mass.).` : ''
 }
 
-export function getVolume(volume: string) {
-	return `${Number(volume) / 1000} л(L)`
+function getVolume(volume: string) {
+	return `${Number(volume) / 1000} л(L)`.replace(/\./, ',')
 
 }
 
@@ -162,7 +163,7 @@ export async function getStickerWordData(stickers: Array<StickerType>, doc: Docu
 							? new TextRun(`Гарантійний термін зберігання ${getShelfLifetime(sticker.shelfLifetime)}. Якщо після закінчення гарантійного терміну зберігання, не з’явились помутніння чи видимий осад, вино придатне для подальшого зберігання та реалізації. `)
 							: new TextRun(''),
 						new TextRun('Зберігати в затемнених приміщеннях за температури від + 5˚С до + 20˚С. Без додавання спирту, цукру, без додавання концентратів. '),
-						new TextRun('Містить '), new TextRun({ text: 'сульфіти.', bold: true }),
+						new TextRun('Містить '), new TextRun({ text: 'СУЛЬФІТИ. ', bold: true }),
 						new TextRun(getSugar(sticker.sugar)),
 					], style: 'normalPara'
 				}),
@@ -199,7 +200,7 @@ export async function getStickerWordData(stickers: Array<StickerType>, doc: Docu
 				new Paragraph({
 					children: [
 						new TextRun({ text: 'Вміст спирту: ' }),
-						new TextRun({ text: `${sticker.alcohol} об. (% vol.)` }),
+						new TextRun({ text: `${sticker.alcohol}% об. (% vol.)` }),
 					], style: 'normalPara'
 				}),
 				new Paragraph({
