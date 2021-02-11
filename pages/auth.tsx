@@ -21,7 +21,7 @@ function getCookie(name: string) {
 function Auth() {
   const [login, setLogin] = React.useState(true)
   const [loginError, setLoginError] = React.useState(null)
-  const [countTrySubmit, setCountTrySubmit] = React.useState(0)
+  let [countTrySubmit, setCountTrySubmit] = React.useState(0)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   // const { user } = React.useContext(UserContext)
 
@@ -63,12 +63,14 @@ function Auth() {
           setIsSubmitting(false)
         }
       } catch (error) {
+        debugger
         setLoginError(error.message)
-        setCountTrySubmit((countTrySubmit) => countTrySubmit++)
+        setCountTrySubmit(countTrySubmit + 1)
         setIsSubmitting(false)
       }
     },
   })
+  console.log("count", countTrySubmit)
 
   return (
     <Layout title={"Auth"}>
@@ -124,8 +126,14 @@ function Auth() {
             Create account?
           </div>
         )}
-        {/* test logout */}
-        {/* <button onClick={logIn} className="w-100 btn btn-lg btn-danger" type="button">LogIn</button> */}
+        {countTrySubmit > 1 && (
+          <div
+            onClick={() => router.push("/forgot-password")}
+            className="text-danger font-weight-bold mt-2 cursor-pointer"
+          >
+            Forgot password?
+          </div>
+        )}
         <p className="mt-5 mb-3 text-muted">
           &copy; 2020. Created by Puzankin Oleg
         </p>
