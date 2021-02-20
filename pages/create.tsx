@@ -345,6 +345,7 @@ export default function Create() {
   async function clearForm() {
     await router.push("/create")
     formik.resetForm()
+    setGrapes(subjects.grapes.array)
     setSelectedGrapes([])
   }
 
